@@ -60,6 +60,8 @@ public class viewPagerFragment extends Fragment {
 
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
+
+
         mPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -93,7 +95,7 @@ public class viewPagerFragment extends Fragment {
                     .setText("Item " + (i + 1))
                     .setTabListener(tabListener));
         }
-
+        actionBar.setSelectedNavigationItem(position);
     }
 
     public class ScreenSlidePagerAdapter extends FragmentPagerAdapter {

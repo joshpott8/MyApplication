@@ -90,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
             transaction.commit();
             mDrawerLayout.closeDrawer(mDrawerList);
-            getSupportActionBar().setSelectedNavigationItem(position);
         }
     }
 
