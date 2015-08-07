@@ -1,5 +1,7 @@
 package com.example.joshpotterton.recyclerview_example;
 
+// v0.2
+
 //import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
