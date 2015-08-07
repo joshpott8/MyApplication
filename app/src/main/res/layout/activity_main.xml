@@ -5,18 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-<LinearLayout
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/frame_layout"></FrameLayout>
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".MainActivity"
+        android:id="@+id/page_one">
 
-</LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/frame_layout"></FrameLayout>
+
+    </LinearLayout>
+
+
 
     <ListView
         android:id="@+id/left_drawer"
