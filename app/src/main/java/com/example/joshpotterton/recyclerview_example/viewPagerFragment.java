@@ -56,48 +56,48 @@ public class viewPagerFragment extends Fragment {
         mPager.setCurrentItem(position);
         mPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
-        final ActionBar actionBar = activity.getSupportActionBar();
+        //final ActionBar actionBar = activity.getSupportActionBar();
 
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        //actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 
 
-        mPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
+        //mPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            //@Override
+            //public void onPageSelected(int position) {
                 //super.onPageSelected(position);
-                actionBar.setSelectedNavigationItem(position);
-            }
-        });
+                //actionBar.setSelectedNavigationItem(position);
+            //}
+        //});
         getActivity().setTitle("Article");
 
 
-        ActionBar.TabListener tabListener = new ActionBar.TabListener(){
+        //ActionBar.TabListener tabListener = new ActionBar.TabListener(){
 
-            @Override
-            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+           // @Override
+            //public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
 
-                mPager.setCurrentItem(tab.getPosition());
+                //mPager.setCurrentItem(tab.getPosition());
 
-            }
+           // }
 
-            @Override
-            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+            //@Override
+            //public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
 
-            }
+            //}
 
-            @Override
-            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+            //@Override
+            //public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
 
-            }
-        };
+            //}
+        //};
 
-        for(int i = 0; i <= 9; i++){
-            actionBar.addTab(actionBar.newTab()
-                    .setText("Item " + (i + 1))
-                    .setTabListener(tabListener));
-        }
-        actionBar.setSelectedNavigationItem(position);
+        //for(int i = 0; i <= 9; i++){
+            //actionBar.addTab(actionBar.newTab()
+                    //.setText("Item " + (i + 1))
+                    //.setTabListener(tabListener));
+        //}
+        //actionBar.setSelectedNavigationItem(position);
     }
 
     public class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
