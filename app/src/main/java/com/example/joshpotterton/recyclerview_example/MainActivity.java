@@ -1,6 +1,6 @@
 package com.example.joshpotterton.recyclerview_example;
 
-import android.app.Activity;
+//import android.app.Activity;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
         mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.navitem, mItemTitles));
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener(this));
 
         //getActionBar().setDisplayHomeAsUpEnabled(true);
         //getActionBar().setHomeButtonEnabled(true);
@@ -72,9 +72,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener{
+        private AppCompatActivity activity;
+
+        public DrawerItemClickListener(AppCompatActivity act){
+            activity = act;
+        }
+
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            viewPagerFragment frag = viewPagerFragment.create(getSupportFragmentManager(), position);
+            viewPagerFragment frag = viewPagerFragment.create(getSupportFragmentManager(), position, activity);
             Bundle args = new Bundle();
             //args.putInt("position", getLayoutPosition());
             //frag.setArguments(args);
@@ -84,28 +90,29 @@ public class MainActivity extends AppCompatActivity {
 
             transaction.commit();
             mDrawerLayout.closeDrawer(mDrawerList);
+            getSupportActionBar().setSelectedNavigationItem(position);
         }
     }
 
-    //@Override
-    //public boolean onCreateOptionsMenu(Menu menu) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
-        //return true;
-    //}
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
-    //@Override
-    //public boolean onOptionsItemSelected(MenuItem item) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        //int id = item.getItemId();
+        //  as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        //if (id == R.id.action_settings) {
-            //return true;
-        //}
+        //  noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
 
-        //return super.onOptionsItemSelected(item);
-    //}
+        return super.onOptionsItemSelected(item);
+    }
 }
