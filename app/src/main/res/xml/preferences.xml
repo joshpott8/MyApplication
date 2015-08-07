@@ -15,4 +15,12 @@
         android:entryValues="@array/text_sizes"
         android:defaultValue="16"/>
 
+    <ListPreference
+        android:key="pref_text_style"
+        android:title="Type Face"
+        android:summary="Change the Type Face"
+        android:entries="@array/type_face"
+        android:entryValues="@array/type_face"
+        android:defaultValue="Sans"/>
+
 </PreferenceScreen>

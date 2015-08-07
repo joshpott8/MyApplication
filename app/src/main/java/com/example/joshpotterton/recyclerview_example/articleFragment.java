@@ -54,5 +54,20 @@ public class articleFragment extends Fragment {
             tv.setTypeface(null, Typeface.NORMAL);
         }
         tv.setTextSize(Float.parseFloat(sharedPreferences.getString("pref_text_size", "16")));
+
+        switch(sharedPreferences.getString("pref_text_style", "Sans")){
+            //case "Normal" :
+               // tv.setTypeface(null, 0);
+                //break;
+            case "Sans" :
+                tv.setTypeface(Typeface.SANS_SERIF);
+                break;
+            case "Serif" :
+                tv.setTypeface(Typeface.SERIF);
+                break;
+            case "Monospace" :
+                tv.setTypeface(Typeface.MONOSPACE);
+                break;
+        }
     }
 }
