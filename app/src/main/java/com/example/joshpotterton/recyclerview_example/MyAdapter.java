@@ -44,7 +44,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(MyAdapter.ViewHolder holder, int position) {
         holder.title.setText(details.ListItems[position]);
-        //holder.desc.setText(details.Info[position]);
 
         String str = "";
         for(int i = 0; i <= 40; i++){

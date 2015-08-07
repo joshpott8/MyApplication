@@ -76,7 +76,9 @@ public class viewPagerFragment extends Fragment {
 
             @Override
             public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+
                 mPager.setCurrentItem(tab.getPosition());
+
             }
 
             @Override

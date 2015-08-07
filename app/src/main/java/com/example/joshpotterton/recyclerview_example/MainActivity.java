@@ -4,9 +4,11 @@ package com.example.joshpotterton.recyclerview_example;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -68,6 +70,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         this.setTitle("Menu");
+
+        //Attempt to remove tabs bar
+        Log.v("App Debug", "Number of tabs: " + Integer.toString(getSupportActionBar().getTabCount()));
+        //for(int i = 0; i < getSupportActionBar().getTabCount(); i++){
+            //Log.v("App Debug", "Tab Removed: " + Integer.toString(i));
+            //getSupportActionBar().removeTabAt(i);
+        //}
+
+        //getSupportActionBar().removeAllTabs();
         super.onBackPressed();
     }
 
