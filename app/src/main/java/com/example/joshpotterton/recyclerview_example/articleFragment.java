@@ -53,6 +53,6 @@ public class articleFragment extends Fragment {
         else{
             tv.setTypeface(null, Typeface.NORMAL);
         }
-
+        tv.setTextSize(Float.parseFloat(sharedPreferences.getString("pref_text_size", "16")));
     }
 }

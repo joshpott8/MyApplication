@@ -148,6 +148,9 @@ public class MainActivity extends AppCompatActivity {
             else{
                 tv.setTypeface(null, Typeface.NORMAL);
             }
+
+            tv.setTextSize(Float.parseFloat(sharedPreferences.getString("pref_text_size", "16")));
+
         }
     }
 }

@@ -7,4 +7,12 @@
         android:summary="Make the text bold"
         android:defaultValue="false" />
 
+    <ListPreference
+        android:key="pref_text_size"
+        android:title="Text Size"
+        android:summary="Change the size of the text"
+        android:entries="@array/text_sizes"
+        android:entryValues="@array/text_sizes"
+        android:defaultValue="16"/>
+
 </PreferenceScreen>
