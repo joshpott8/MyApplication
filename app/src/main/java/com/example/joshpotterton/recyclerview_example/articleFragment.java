@@ -1,6 +1,9 @@
 package com.example.joshpotterton.recyclerview_example;
 
+import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -41,6 +44,15 @@ public class articleFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         title.setText(details.ListItems[mPageNumber]);
         tv.setText(details.Info[mPageNumber]);
-        //image.setImageResource(details.images);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        if(sharedPreferences.getBoolean("pref_text_bold", false)){
+            tv.setTypeface(null, Typeface.BOLD);
+        }
+        else{
+            tv.setTypeface(null, Typeface.NORMAL);
+        }
+
     }
 }

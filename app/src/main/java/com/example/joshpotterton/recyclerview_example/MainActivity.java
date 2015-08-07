@@ -2,6 +2,9 @@ package com.example.joshpotterton.recyclerview_example;
 
 //import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +19,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -132,5 +136,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        TextView tv = (TextView) findViewById(R.id.article);
+
+        if(tv != null){
+
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+            if(sharedPreferences.getBoolean("pref_text_bold", false)){
+                tv.setTypeface(null, Typeface.BOLD);
+            }
+            else{
+                tv.setTypeface(null, Typeface.NORMAL);
+            }
+        }
     }
 }
