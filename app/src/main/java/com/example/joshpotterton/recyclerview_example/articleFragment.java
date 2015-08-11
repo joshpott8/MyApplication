@@ -67,26 +67,32 @@ public class articleFragment extends Fragment {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        if(sharedPreferences.getBoolean("pref_text_bold", false)){
-            tv.setTypeface(null, Typeface.BOLD);
-        }
-        else{
-            tv.setTypeface(null, Typeface.NORMAL);
-        }
         tv.setTextSize(Float.parseFloat(sharedPreferences.getString("pref_text_size", "16")));
 
         switch(sharedPreferences.getString("pref_text_style", "Sans")){
-            //case "Normal" :
-               // tv.setTypeface(null, 0);
-                //break;
             case "Sans" :
-                tv.setTypeface(Typeface.SANS_SERIF);
+                if(sharedPreferences.getBoolean("pref_text_bold", false)) {
+                    tv.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+                }
+                else{
+                    tv.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+                }
                 break;
             case "Serif" :
-                tv.setTypeface(Typeface.SERIF);
+                if(sharedPreferences.getBoolean("pref_text_bold", false)) {
+                    tv.setTypeface(Typeface.SERIF, Typeface.BOLD);
+                }
+                else{
+                    tv.setTypeface(Typeface.SERIF, Typeface.NORMAL);
+                }
                 break;
             case "Monospace" :
-                tv.setTypeface(Typeface.MONOSPACE);
+                if(sharedPreferences.getBoolean("pref_text_bold", false)) {
+                    tv.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
+                }
+                else{
+                    tv.setTypeface(Typeface.MONOSPACE, Typeface.NORMAL);
+                }
                 break;
         }
 
@@ -102,26 +108,32 @@ public class articleFragment extends Fragment {
     public void updateFrag(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        if(sharedPreferences.getBoolean("pref_text_bold", false)){
-            tv.setTypeface(null, Typeface.BOLD);
-        }
-        else{
-            tv.setTypeface(null, Typeface.NORMAL);
-        }
         tv.setTextSize(Float.parseFloat(sharedPreferences.getString("pref_text_size", "16")));
 
         switch(sharedPreferences.getString("pref_text_style", "Sans")){
-            //case "Normal" :
-            // tv.setTypeface(null, 0);
-            //break;
             case "Sans" :
-                tv.setTypeface(Typeface.SANS_SERIF);
+                if(sharedPreferences.getBoolean("pref_text_bold", false)) {
+                    tv.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+                }
+                else{
+                    tv.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+                }
                 break;
             case "Serif" :
-                tv.setTypeface(Typeface.SERIF);
+                if(sharedPreferences.getBoolean("pref_text_bold", false)) {
+                    tv.setTypeface(Typeface.SERIF, Typeface.BOLD);
+                }
+                else{
+                    tv.setTypeface(Typeface.SERIF, Typeface.NORMAL);
+                }
                 break;
             case "Monospace" :
-                tv.setTypeface(Typeface.MONOSPACE);
+                if(sharedPreferences.getBoolean("pref_text_bold", false)) {
+                    tv.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
+                }
+                else{
+                    tv.setTypeface(Typeface.MONOSPACE, Typeface.NORMAL);
+                }
                 break;
         }
         //swipeRefresh.setRefreshing(true);
