@@ -6,20 +6,20 @@
     android:layout_height="match_parent" >
 
 
-    <LinearLayout
+    <!--<LinearLayout
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".MainActivity"
         android:id="@+id/page_one">
-
+-->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/frame_layout"></FrameLayout>
 
-    </LinearLayout>
-
+    <!--</LinearLayout>
+-->
 
 
     <ListView

@@ -9,7 +9,8 @@
         android:theme="@style/Theme.Customactionbar" >
         <activity
             android:name=".MainActivity"
-            android:label="Menu" >
+            android:label="Menu"
+            android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
