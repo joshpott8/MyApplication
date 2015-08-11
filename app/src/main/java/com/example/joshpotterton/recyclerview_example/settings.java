@@ -28,6 +28,7 @@ public class settings extends PreferenceActivity {
         return true;
     }
 
+
     public static class prefsFrag extends PreferenceFragment{
 
         @Override

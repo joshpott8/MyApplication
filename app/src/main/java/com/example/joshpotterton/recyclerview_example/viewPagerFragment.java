@@ -1,6 +1,9 @@
 package com.example.joshpotterton.recyclerview_example;
 
 
+import android.content.SharedPreferences;
+import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +20,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class viewPagerFragment extends Fragment {
 
@@ -24,6 +31,9 @@ public class viewPagerFragment extends Fragment {
     private static AppCompatActivity activity;
     private View view;
     private static int position;
+
+    //private ArrayList<articleFragment> list = new ArrayList<articleFragment>();
+    private articleFragment[] list = {null,null,null,null,null,null,null,null,null,null};
 
     public static viewPagerFragment create(FragmentManager fm, int pos, AppCompatActivity act){
         viewPagerFragment frag = new viewPagerFragment();
@@ -51,10 +61,34 @@ public class viewPagerFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         final ViewPager mPager = (ViewPager) view.findViewById(R.id.pager);
+
+
         PagerAdapter mPagerAdapter = new viewPagerFragment.ScreenSlidePagerAdapter(getChildFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(position);
         mPager.setPageTransformer(true, new ZoomOutPageTransformer());
+
+        mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener(){
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                int i = mPager.getCurrentItem();
+                list[i].updateFrag();
+                Log.v("App Debug", "Updating " + Integer.toString(i));
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                int i = mPager.getCurrentItem();
+                list[i].updateFrag();
+                Log.v("App Debug", "Updating " + Integer.toString(i));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         //final ActionBar actionBar = activity.getSupportActionBar();
 
@@ -109,7 +143,9 @@ public class viewPagerFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             Log.v("App Debug", Integer.toString(position));
-            return articleFragment.create(position);
+            articleFragment frag = articleFragment.create(position);
+            list[position] = frag;
+            return frag;
         }
 
         @Override
@@ -121,5 +157,7 @@ public class viewPagerFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             return "Item " + (position+1);
         }
+
+
     }
 }

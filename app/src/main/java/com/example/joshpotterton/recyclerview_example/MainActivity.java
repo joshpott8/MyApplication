@@ -138,21 +138,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        TextView tv = (TextView) findViewById(R.id.article);
+        //TextView tv = (TextView) findViewById(R.id.article);
 
-        if(tv != null){
+        //if(tv != null){
 
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-            if(sharedPreferences.getBoolean("pref_text_bold", false)){
-                tv.setTypeface(null, Typeface.BOLD);
-            }
-            else{
-                tv.setTypeface(null, Typeface.NORMAL);
-            }
+            //if(sharedPreferences.getBoolean("pref_text_bold", false)){
+                //tv.setTypeface(null, Typeface.BOLD);
+           // }
+            //else{
+                //tv.setTypeface(null, Typeface.NORMAL);
+            //}
 
-            tv.setTextSize(Float.parseFloat(sharedPreferences.getString("pref_text_size", "16")));
+            //tv.setTextSize(Float.parseFloat(sharedPreferences.getString("pref_text_size", "16")));
 
-        }
+        //}
     }
 }
