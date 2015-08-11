@@ -13,14 +13,23 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.lang.ref.WeakReference;
 
 public class articleFragment extends Fragment {
@@ -30,6 +39,15 @@ public class articleFragment extends Fragment {
     private TextView title;
     private ImageView image;
     private SwipeRefreshLayout swipeRefresh;
+
+    Thread thread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            xmlParsing p = new xmlParsing();
+            p.doInBackground();
+            //p.onPostExecute(p.doInBackground());
+        }
+    });
 
     public static articleFragment create(int pageNumber){
         articleFragment fragment = new articleFragment();
@@ -45,6 +63,9 @@ public class articleFragment extends Fragment {
         mPageNumber = getArguments().getInt("position");
         tv = (TextView) view.findViewById(R.id.article);
         title = (TextView) view.findViewById(R.id.articleTitle);
+
+
+
         image = (ImageView) view.findViewById(R.id.imageView);
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         return view;
@@ -53,8 +74,32 @@ public class articleFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        title.setText(details.ListItems[mPageNumber]);
-        tv.setText(details.Info[mPageNumber]);
+        //title.setText(details.ListItems[mPageNumber]);
+        //tv.setText(details.Info[mPageNumber]);
+
+        try {
+
+            if(mPageNumber < 2){
+                JSONObject reader = new JSONObject(details.json);
+                JSONArray jsonArray = reader.optJSONArray("Article");
+                JSONObject article = jsonArray.getJSONObject(mPageNumber);
+                title.setText(article.getString("Title"));
+                tv.setText(article.getString("Description"));
+            }
+            else if(mPageNumber < 3){
+
+                thread.start();
+
+
+            }
+            else{
+                title.setText(details.ListItems[mPageNumber]);
+                tv.setText(details.Info[mPageNumber]);
+            }
+        }
+        catch(Exception e){
+            Log.v("App Debug", e.getMessage());
+        }
 
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
 
@@ -97,11 +142,7 @@ public class articleFragment extends Fragment {
         }
 
         BitmapWorkerTask bm = new BitmapWorkerTask(image);
-
         bm.onPostExecute(bm.doInBackground(R.drawable.trollface));
-        //image.setImageResource(R.drawable.trollface);
-
-        //image.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.trollface, 10, 10));
 
     }
 
@@ -136,7 +177,7 @@ public class articleFragment extends Fragment {
                 }
                 break;
         }
-        //swipeRefresh.setRefreshing(true);
+
     }
 
     private class BitmapWorkerTask extends AsyncTask<Integer, Void, Bitmap>{
@@ -167,6 +208,74 @@ public class articleFragment extends Fragment {
 
 
     }
+
+    private class xmlParsing extends AsyncTask<Void, Void, Void>{
+
+        XmlPullParser xpp;
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                factory.setNamespaceAware(true);
+                xpp = factory.newPullParser();
+                xpp.setInput(new StringReader(details.xmlString));
+
+                Log.v("App Debug", "Parsing XML");
+
+                int eventType = xpp.getEventType();
+                while (eventType != XmlPullParser.END_DOCUMENT) {
+
+                    if ((eventType == XmlPullParser.START_TAG) && (!xpp.getName().equals("Articles"))) {
+                            Log.v("App Debug", "xpp.getName() = " + xpp.getName());
+                            xpp.next();
+                            xpp.next();
+                            String Title = xpp.getText();
+                            xpp.next();
+                            xpp.next();
+                            xpp.next();
+                            String Desc = xpp.getText();
+                            Log.v("App Debug", Title + " - " + Desc);
+                            break;
+
+                    }
+                    else{
+                        if(eventType == XmlPullParser.TEXT) {
+                            Log.v("App Debug", xpp.getText());
+                        }
+                    }
+                    eventType = xpp.next();
+
+                }
+            }
+            catch(Exception e){
+                Log.v("App Debug", e.getMessage());
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            try {
+                int eventType = xpp.getEventType();
+                while (eventType != XmlPullParser.END_DOCUMENT) {
+
+                    if ((eventType == XmlPullParser.START_TAG) && (!xpp.getName().equals("Articles"))) {
+                        if(eventType == XmlPullParser.TEXT) {
+                            Log.v("App Debug", xpp.getText().toString());
+                        }
+                    }
+
+                }
+            }
+            catch(Exception e){
+                Log.v("App Debug", e.getMessage());
+            }
+        }
+    }
+
+    //Code from Google Android Developer webpage
     public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
                                                          int reqWidth, int reqHeight) {
 

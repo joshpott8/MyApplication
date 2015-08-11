@@ -30,6 +30,10 @@ public class details {
                     "Item 10 is last. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et magna ut erat elementum cursus in quis ipsum. Nam faucibus ultrices eros, vel tempor leo semper sit amet. Duis magna quam, congue vitae interdum nec, condimentum ut lectus. Sed commodo venenatis eros a dignissim. Nunc adipiscing turpis nec magna venenatis at ultricies ipsum bibendum. Sed volutpat urna quis nisi vulputate egestas. Etiam eu dui a enim lacinia dapibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\n\nPhasellus orci mi, eleifend nec congue id, volutpat at neque. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer semper velit vel leo rutrum sed fermentum elit porta."
             };
 
-    public static final int images = R.drawable.trollface;
+    public static String json= "{'Article':[{'Title':'Item One','Description':'Item one is great and this was in JSON'}," +
+            "{'Title':'Item Two','Description':'Item two is terrible and this was in JSON'}]}";
+
+    public static String xmlString = "<Articles>" +
+            "<Article><Title>Item Three</Title><Description>Item three is okay and this was in XML</Description></Article></Articles>";
 
 }
