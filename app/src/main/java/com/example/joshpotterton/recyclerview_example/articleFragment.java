@@ -40,15 +40,6 @@ public class articleFragment extends Fragment {
     private ImageView image;
     private SwipeRefreshLayout swipeRefresh;
 
-    Thread thread = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            xmlParsing p = new xmlParsing();
-            p.doInBackground();
-            //p.onPostExecute(p.doInBackground());
-        }
-    });
-
     public static articleFragment create(int pageNumber){
         articleFragment fragment = new articleFragment();
         Bundle args = new Bundle();
@@ -88,8 +79,9 @@ public class articleFragment extends Fragment {
             }
             else if(mPageNumber < 3){
 
-                thread.start();
-
+                xmlParsing p = new xmlParsing(title, tv);
+                // p.doInBackground();
+                p.onPostExecute(p.doInBackground());
 
             }
             else{
@@ -209,12 +201,21 @@ public class articleFragment extends Fragment {
 
     }
 
-    private class xmlParsing extends AsyncTask<Void, Void, Void>{
+    public class xmlParsing extends AsyncTask<Void, Void, String[]>{
 
-        XmlPullParser xpp;
+        private XmlPullParser xpp;
+        private TextView mTitle;
+        private TextView mDesc;
+
+
+        public xmlParsing(TextView title, TextView desc){
+            mTitle = title;
+            mDesc = desc;
+        }
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected String[] doInBackground(Void... params) {
+            String[] str = new String[2];
             try {
                 XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
                 factory.setNamespaceAware(true);
@@ -230,12 +231,12 @@ public class articleFragment extends Fragment {
                             Log.v("App Debug", "xpp.getName() = " + xpp.getName());
                             xpp.next();
                             xpp.next();
-                            String Title = xpp.getText();
+                            str[0] = xpp.getText();
                             xpp.next();
                             xpp.next();
                             xpp.next();
-                            String Desc = xpp.getText();
-                            Log.v("App Debug", Title + " - " + Desc);
+                            str[1] = xpp.getText();
+                            //Log.v("App Debug", Title + " - " + Desc);
                             break;
 
                     }
@@ -251,27 +252,14 @@ public class articleFragment extends Fragment {
             catch(Exception e){
                 Log.v("App Debug", e.getMessage());
             }
-            return null;
+            return str;
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            try {
-                int eventType = xpp.getEventType();
-                while (eventType != XmlPullParser.END_DOCUMENT) {
-
-                    if ((eventType == XmlPullParser.START_TAG) && (!xpp.getName().equals("Articles"))) {
-                        if(eventType == XmlPullParser.TEXT) {
-                            Log.v("App Debug", xpp.getText().toString());
-                        }
-                    }
-
-                }
-            }
-            catch(Exception e){
-                Log.v("App Debug", e.getMessage());
-            }
+        protected void onPostExecute(String[] str) {
+            super.onPostExecute(str);
+            mTitle.setText(str[0]);
+            mDesc.setText(str[1]);
         }
     }
 
