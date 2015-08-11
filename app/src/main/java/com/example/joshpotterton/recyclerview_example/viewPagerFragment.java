@@ -74,14 +74,14 @@ public class viewPagerFragment extends Fragment {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 int i = mPager.getCurrentItem();
                 list[i].updateFrag();
-                Log.v("App Debug", "Updating " + Integer.toString(i));
+                //Log.v("App Debug", "Updating " + Integer.toString(i));
             }
 
             @Override
             public void onPageSelected(int position) {
                 int i = mPager.getCurrentItem();
                 list[i].updateFrag();
-                Log.v("App Debug", "Updating " + Integer.toString(i));
+                //Log.v("App Debug", "Updating " + Integer.toString(i));
             }
 
             @Override
