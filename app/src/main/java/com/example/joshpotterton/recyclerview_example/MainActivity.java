@@ -24,6 +24,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.apache.http.protocol.HTTP;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,16 +42,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Cancel any notifications
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         manager.cancel(001);
 
         //Setup NavigationDrawer
         mTitle = mDrawerTitle = getTitle();
         mItemTitles = details.ListItems;
+        String[] navBtns = new String[11];
+
+        //Loop through items and then add Email Us
+        for(int i = 0; i < 10; i++){
+            navBtns[i] = mItemTitles[i];
+        }
+        navBtns[10] = "Email Us";
+
+        //Set up nav drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.navitem, mItemTitles));
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.navitem, navBtns));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener(this));
 
         //getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -102,16 +114,24 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            viewPagerFragment frag = viewPagerFragment.create(getSupportFragmentManager(), position, activity);
-            Bundle args = new Bundle();
-            //args.putInt("position", getLayoutPosition());
-            //frag.setArguments(args);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.frame_layout, frag);
-            transaction.addToBackStack(null);
 
-            transaction.commit();
-            mDrawerLayout.closeDrawer(mDrawerList);
+            if(position < 10) {
+                viewPagerFragment frag = viewPagerFragment.create(getSupportFragmentManager(), position, activity);
+                Bundle args = new Bundle();
+                //args.putInt("position", getLayoutPosition());
+                //frag.setArguments(args);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frame_layout, frag);
+                transaction.addToBackStack(null);
+
+                transaction.commit();
+                mDrawerLayout.closeDrawer(mDrawerList);
+            }
+            else{
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.setType(HTTP.PLAIN_TEXT_TYPE);
+                startActivity(emailIntent);
+            }
         }
     }
 
