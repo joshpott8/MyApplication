@@ -27,10 +27,13 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class articleFragment extends Fragment {
     private View view;
@@ -39,6 +42,47 @@ public class articleFragment extends Fragment {
     private TextView title;
     private ImageView image;
     private SwipeRefreshLayout swipeRefresh;
+
+    private String str;
+
+    Thread textThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            downloadTextFile d = new downloadTextFile(tv);
+            str  = d.doInBackground("http://www.newthinktank.com/wordpress/lotr.txt");
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    String[] data = str.split("\n");
+                    title.setText(data[0]);
+                    details.lotrTitle = data[0];
+                    int length = str.length();
+                    String string;
+                    StringBuilder stringBuilder = new StringBuilder();
+                    try {
+                        for (int i = 1; i < length - 2; i++) {
+                            if (i == 1) {
+                                tv.setText(data[i]);
+                                //stringBuilder.append(data[i]);
+                                details.lotrText = data[i];
+                            } else {
+                                tv.append(data[i] + "\n");
+                                //stringBuilder.append(data[i]);
+                                //stringBuilder.append("\n");
+                                details.lotrText = details.lotrText + data[i] + "\n";
+                            }
+                        }
+
+                        //details.lotrText = stringBuilder.toString();
+                    }
+                    catch(Exception e){
+                        Log.v("App Debug", "Error: " + e.getMessage());
+                    }
+                }
+            });
+
+        }
+    });
 
     public static articleFragment create(int pageNumber){
         articleFragment fragment = new articleFragment();
@@ -83,6 +127,15 @@ public class articleFragment extends Fragment {
                 // p.doInBackground();
                 p.onPostExecute(p.doInBackground());
 
+            }
+            else if(mPageNumber < 4){
+                if(details.lotrTitle == null) {
+                    textThread.start();
+                }
+                else{
+                    title.setText(details.lotrTitle);
+                    tv.setText(details.lotrText);
+                }
             }
             else{
                 title.setText(details.ListItems[mPageNumber]);
@@ -302,4 +355,6 @@ public class articleFragment extends Fragment {
 
         return inSampleSize;
     }
+
+
 }

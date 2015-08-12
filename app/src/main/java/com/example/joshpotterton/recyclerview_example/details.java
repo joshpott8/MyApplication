@@ -36,4 +36,7 @@ public class details {
     public static String xmlString = "<Articles>" +
             "<Article><Title>Item Three</Title><Description>Item three is okay and this was in XML</Description></Article></Articles>";
 
+    public static String lotrTitle;
+    public static String lotrText;
+
 }
