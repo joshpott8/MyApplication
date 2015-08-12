@@ -1,5 +1,8 @@
 package com.example.joshpotterton.recyclerview_example;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -11,6 +14,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.Xml;
@@ -57,23 +62,40 @@ public class articleFragment extends Fragment {
                     title.setText(data[0]);
                     details.lotrTitle = data[0];
                     int length = str.length();
-                    String string;
-                    StringBuilder stringBuilder = new StringBuilder();
+                    //StringBuilder stringBuilder = new StringBuilder();
                     try {
-                        for (int i = 1; i < length - 2; i++) {
-                            if (i == 1) {
-                                tv.setText(data[i]);
+                        for (int x = 1; x < length; x++) {
+                            if (x == 1) {
+                                tv.setText(data[x]);
                                 //stringBuilder.append(data[i]);
-                                details.lotrText = data[i];
-                            } else {
-                                tv.append(data[i] + "\n");
+                                details.lotrText = data[x];
+                            }
+                            else if(x == 23){
+                                   break;
+                            }
+                            else
+                            {
+                                tv.append(data[x] + "\n");
                                 //stringBuilder.append(data[i]);
                                 //stringBuilder.append("\n");
-                                details.lotrText = details.lotrText + data[i] + "\n";
+                                details.lotrText = details.lotrText + data[x] + "\n";
                             }
                         }
 
-                        //details.lotrText = stringBuilder.toString();
+                        NotificationManager manager = (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
+
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        NotificationCompat.Builder notification = new NotificationCompat.Builder(getActivity())
+                                .setSmallIcon(R.drawable.notification_template_icon_bg)
+                                .setTicker("Downloaded Extract")
+                                .setContentTitle("Downloaded Extract")
+                                .setContentText("Downloaded Lord of the Rings Extract")
+                                .setContentIntent(pendingIntent);
+                        int id = 001;
+                        manager.notify(id, notification.build());
+
                     }
                     catch(Exception e){
                         Log.v("App Debug", "Error: " + e.getMessage());
