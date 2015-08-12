@@ -49,13 +49,14 @@ public class MainActivity extends AppCompatActivity {
         //Setup NavigationDrawer
         mTitle = mDrawerTitle = getTitle();
         mItemTitles = details.ListItems;
-        String[] navBtns = new String[11];
+        String[] navBtns = new String[12];
 
         //Loop through items and then add Email Us
         for(int i = 0; i < 10; i++){
             navBtns[i] = mItemTitles[i];
         }
         navBtns[10] = "Email Us";
+        navBtns[11] = "Favourite Articles";
 
         //Set up nav drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -127,10 +128,20 @@ public class MainActivity extends AppCompatActivity {
                 transaction.commit();
                 mDrawerLayout.closeDrawer(mDrawerList);
             }
-            else{
+            else if(position < 11){
                 Intent emailIntent = new Intent(Intent.ACTION_SEND);
                 emailIntent.setType(HTTP.PLAIN_TEXT_TYPE);
                 startActivity(emailIntent);
+            }
+            else{
+                dbHelper db = new dbHelper(getApplicationContext());
+                favArticlesFragment frag = favArticlesFragment.create(db);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frame_layout, frag);
+                transaction.addToBackStack(null);
+
+                transaction.commit();
+                mDrawerLayout.closeDrawer(mDrawerList);
             }
         }
     }

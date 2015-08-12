@@ -33,7 +33,9 @@ public class menuFragment extends Fragment {
         View view = (View) inflater.inflate(R.layout.recycler, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rView);
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+
+        mLayoutManager = new LinearLayoutManager(getActivity());
+
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mAdapter = new MyAdapter(fragMan, activity);

@@ -181,9 +181,11 @@ public class articleFragment extends Fragment {
                     article.put("Desc", tv.getText().toString());
 
                     db.insertArticle(article);
+                    favBtn.setText("Unfavourite");
                 }
                 else{
                     db.deleteRef(title.getText().toString());
+                    favBtn.setText("Add to Favourites");
                 }
             }
         });
