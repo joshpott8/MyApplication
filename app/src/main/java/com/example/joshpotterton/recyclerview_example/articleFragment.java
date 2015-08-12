@@ -8,37 +8,27 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
-import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.lang.ref.WeakReference;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class articleFragment extends Fragment {
     private View view;
@@ -46,6 +36,7 @@ public class articleFragment extends Fragment {
     private TextView tv;
     private TextView title;
     private ImageView image;
+    private Button favBtn;
     private SwipeRefreshLayout swipeRefresh;
 
     private String str;
@@ -120,8 +111,7 @@ public class articleFragment extends Fragment {
         mPageNumber = getArguments().getInt("position");
         tv = (TextView) view.findViewById(R.id.article);
         title = (TextView) view.findViewById(R.id.articleTitle);
-
-
+        favBtn = (Button) view.findViewById(R.id.favBtn);
 
         image = (ImageView) view.findViewById(R.id.imageView);
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
@@ -167,6 +157,36 @@ public class articleFragment extends Fragment {
         catch(Exception e){
             Log.v("App Debug", e.getMessage());
         }
+
+        //Setup Button
+        final dbHelper db = new dbHelper(getActivity());
+
+        ArrayList<HashMap<String, String>> articles = db.getArticles();
+
+        for(HashMap<String, String> article : articles){
+            if(article.get("Title").equals(title.getText().toString())){
+                favBtn.setText("Unfavourite");
+            }
+        }
+
+        favBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Button btn = (Button) v.findViewById(R.id.favBtn);
+
+                if(btn.getText().toString().equalsIgnoreCase("Add to Favourites")){
+                    HashMap<String, String> article = new HashMap<String, String>();
+                    article.put("Title", title.getText().toString());
+                    article.put("Desc", tv.getText().toString());
+
+                    db.insertArticle(article);
+                }
+                else{
+                    db.deleteRef(title.getText().toString());
+                }
+            }
+        });
 
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
 
